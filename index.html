@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hennawi Advisory - Institutional Transformation & Strategy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2c3e50;
+            overflow-x: hidden;
+        }
+
+        /* Book Opening Animation */
+        #book-intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2544 0%, #1e3c72 50%, #2a5298 100%);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeOut 1s ease-in-out 3s forwards;
+        }
+
+        .book {
+            width: 500px;
+            height: 350px;
+            position: relative;
+            transform-style: preserve-3d;
+            perspective: 2000px;
+        }
+
+        .book-cover {
+            position: absolute;
+            width: 250px;
+            height: 350px;
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            border: 3px solid #3d2817;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .book-cover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .book-cover::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            border: 2px solid rgba(218,165,32,0.3);
+            pointer-events: none;
+        }
+
+        .book-title-cover {
+            position: relative;
+            color: #DAA520;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 1;
+            line-height: 1.3;
+        }
+
+        .book-left {
+            left: 0;
+            transform-origin: right center;
+            animation: openLeft 2s ease-in-out forwards;
+        }
+
+        .book-right {
+            right: 0;
+            transform-origin: left center;
+            animation: openRight 2s ease-in-out forwards;
+            background: #fdfbf7;
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 350px;
+            background: linear-gradient(90deg, #3d2817 0%, #654321 50%, #3d2817 100%);
+            z-index: 1;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .book-page {
+            position: absolute;
+            width: 250px;
+            height: 350px;
+            background: #fdfbf7;
+            border: 2px solid #d4c5b0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .book-page::before {
+            content: '';
+            position: absolute;
+            top: 5%;
+            left: 8%;
+            right: 8%;
+            bottom: 5%;
+            border: 1px solid rgba(139,69,19,0.2);
+        }
+
+        .book-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scaleX(-1);
+            color: #654321;
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            opacity: 0;
+            animation: fadeInText 1s ease-in-out 1.5s forwards;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-family: 'Georgia', serif;
+        }
+
+        @keyframes openLeft {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(-160deg); }
+        }
+
+        @keyframes openRight {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(160deg); }
+        }
+
+        @keyframes fadeInText {
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            opacity: 0;
+            animation: slideDown 0.8s ease-out 3.5s forwards;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            opacity: 0;
+            animation: fadeInContent 1s ease-out 3.8s forwards;
+        }
+
+        @keyframes fadeInContent {
+            to { opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9)),
+                        url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600') center/cover;
+            color: white;
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            animation: slideUp 1s ease-out 4s backwards;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+            animation: slideUp 1s ease-out 4.2s backwards;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #1e3c72;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideUp 1s ease-out 4.4s backwards;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e3c72;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .service-card:nth-child(1) { animation-delay: 4.6s; }
+        .service-card:nth-child(2) { animation-delay: 4.8s; }
+        .service-card:nth-child(3) { animation-delay: 5s; }
+        .service-card:nth-child(4) { animation-delay: 5.2s; }
+        .service-card:nth-child(5) { animation-delay: 5.4s; }
+        .service-card:nth-child(6) { animation-delay: 5.6s; }
+
+        @keyframes fadeInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .service-card p {
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .approach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+
+        .approach-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .approach-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .approach-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .approach-card h3 {
+            color: #1e3c72;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .approach-card p {
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+        .about {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800') center/cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .about-text h2 {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            line-height: 1.8;
+            color: #5a6c7d;
+            margin-bottom: 1rem;
+        }
+
+        /* Who We Serve */
+        .clients {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .clients h2 {
+            color: white;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .client-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: background 0.3s;
+        }
+
+        .client-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .client-card h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #5a6c7d;
+        }
+
+        .contact-details {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            color: #1e3c72;
+            flex-shrink: 0;
+        }
+
+        .contact-item strong {
+            color: #1e3c72;
+            min-width: 100px;
+        }
+
+        .contact-item a {
+            color: #2a5298;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1.1rem; }
+            .about-content { grid-template-columns: 1fr; }
+            nav ul { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Book Opening Animation -->
+    <div id="book-intro">
+        <div class="book">
+            <div class="book-spine"></div>
+            <div class="book-cover book-left">
+                <div class="book-title-cover">HENNAWI<br>ADVISORY</div>
+            </div>
+            <div class="book-page book-left">
+                <div class="book-text">Hennawi<br>Advisory</div>
+            </div>
+            <div class="book-page book-right"></div>
+            <div class="book-cover book-right"></div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="https://i.imgur.com/your-logo-here.png" alt="Hennawi Advisory Logo">
+                <span class="logo-text">HENNAWI ADVISORY</span>
+            </div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#approach">Approach</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Institutional Transformation & Strategy</h1>
+            <p>We help organizations operating in complex, regulated environments turn strategy into measurable, sustainable results—by aligning governance, people, data, and programs with real policy, workforce, and performance outcomes.</p>
+            <a href="#contact" class="cta-button">Get Started</a>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services" id="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>Institutional Strategy & Transformation</h3>
+                        <p>Expert guidance on executing strategic change initiatives with lasting impact in complex organizational environments.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Accreditation & Quality Assurance</h3>
+                        <p>De-risk reviews and build defensible QA systems that stand up to regulatory scrutiny.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Program & Workforce Alignment</h3>
+                        <p>Align programs and credentials with labour market priorities to deliver measurable employment outcomes.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Operating Model Design</h3>
+                        <p>Redesign governance structures and operating models that function effectively in practice.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Performance Systems</h3>
+                        <p>Build data and performance systems that drive informed decision-making and accountability.</p>
+                    </div>
+                    <div class="service-card">
+                        <h3>Stakeholder Relations Strategy</h3>
+                        <p>Navigate government and regulatory relationships with confidence and strategic clarity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team" id="approach">
+            <div class="container">
+                <h2>Senior Advisory Approach</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; color: #5a6c7d; line-height: 1.8;">
+                    As a senior independent advisor, I bring executive-level judgment and hands-on implementation expertise—without the overhead of large consulting firms.
+                </p>
+                <div class="approach-grid">
+                    <div class="approach-card">
+                        <div class="approach-icon">1</div>
+                        <h3>Senior-Level Execution</h3>
+                        <p>You work directly with a seasoned executive who has accountability experience—not a junior consultant.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">2</div>
+                        <h3>Practical Implementation</h3>
+                        <p>I don't just advise—I redesign systems, build frameworks, and stay through adoption.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">3</div>
+                        <h3>Regulatory Credibility</h3>
+                        <p>Deep understanding of accreditation, compliance, and government accountability from both sides of the table.</p>
+                    </div>
+                    <div class="approach-card">
+                        <div class="approach-icon">4</div>
+                        <h3>Fixed-Scope Clarity</h3>
+                        <p>Clear deliverables, controlled risk, and predictable outcomes—no scope creep or surprise bills.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="about-content">
+                <div class="about-image"></div>
+                <div class="about-text">
+                    <h2>Execution-Focused Advisory</h2>
+                    <p>We are institutional transformation and strategy advisors specializing in governance, operating models, performance systems, and workforce alignment.</p>
+                    <p>Our approach is practical and outcome-driven. We don't just advise—we implement, redesign operating systems, and stay through adoption to ensure sustainable results.</p>
+                    <p>With deep experience in regulated environments, we help leadership teams move from strategy to execution, ensuring initiatives are delivered, adopted, and sustained.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Who We Serve -->
+        <section class="clients">
+            <div class="container">
+                <h2>Who We Serve</h2>
+                <div class="clients-grid">
+                    <div class="client-card">
+                        <h3>Public Sector Organizations</h3>
+                        <p>Government and quasi-government bodies navigating complex accountability requirements.</p>
+                    </div>
+                    <div class="client-card">
+                        <h3>Post-Secondary Institutions</h3>
+                        <p>Public and private colleges and universities facing regulatory and accreditation pressures.</p>
+                    </div>
+                    <div class="client-card">
+                        <h3>Workforce Development</h3>
+                        <p>Training organizations aligning programs with labour market and funding priorities.</p>
+                    </div>
+                    <div class="client-card">
+                        <h3>Regulated Institutions</h3>
+                        <p>Organizations undergoing growth, transformation, or regulatory change.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="contact-content">
+                <h2>Ready to Transform Your Institution?</h2>
+                <p>Let's discuss how we can help you execute strategy and achieve measurable results.</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <div>
+                            <strong>Email:</strong> <a href="mailto:info@hennawi.com">info@hennawi.com</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                        </svg>
+                        <div>
+                            <strong>Phone:</strong> <a href="tel:780-674-0087">780-674-0087</a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <div>
+                            <strong>Location:</strong> Edmonton, Alberta
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <svg class="contact-icon" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <div>
+                            <strong>Service Area:</strong> Canada Wide (Remote)
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="mailto:info@hennawi.com" class="cta-button" style="margin-top: 2rem;">Get In Touch</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Hennawi Advisory. All rights reserved.</p>
+    </footer>
+</body>
+</html>
